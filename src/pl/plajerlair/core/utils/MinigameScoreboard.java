@@ -1,6 +1,5 @@
 package pl.plajerlair.core.utils;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,8 +8,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,87 +17,140 @@ import java.util.List;
  */
 public class MinigameScoreboard {
 
-    private static final List<ChatColor> colors = Arrays.asList(ChatColor.values());
+    private final String name, criterion;
 
-    private final Scoreboard scoreboard;
-    private final Objective objective;
+    private final Scoreboard bukkitScoreboard;
+    private final Objective obj;
+    private String title;
+    private Row[] rows = new Row[0];
+    private List<Row> rowCache = new ArrayList<>();
+    private boolean finished = false;
 
-    private final List<BoardLine> boardLines = new ArrayList<>();
+    public MinigameScoreboard(String name, String criterion, String title) {
+        this.name = name;
+        this.criterion = criterion;
+        this.title = title;
 
-    public MinigameScoreboard(String displayName, List<String> lines) {
-        Validate.isTrue(lines.size() < colors.size(), "Too many lines!");
-        scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        objective = scoreboard.registerNewObjective("MagickScoreboard", "dummy");
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(displayName);
-        for(int i = 0; i < colors.size(); i++) {
-            final ChatColor color = colors.get(i);
-            final Team team = scoreboard.registerNewTeam("line" + i);
-            team.addEntry(color.toString());
-            boardLines.add(new BoardLine(color, i, team));
-        }
-        for(int i = 0; i < lines.size(); i++) setValue(i, lines.get(i));
+        this.bukkitScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        this.obj = this.bukkitScoreboard.registerNewObjective(name, criterion);
+
+        this.obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        this.obj.setDisplayName(title);
     }
 
-    private BoardLine getBoardLine(int line) {
-        return boardLines.stream().filter(boardLine -> boardLine.getLine() == line).findFirst().orElse(null);
+    public String getName() {
+        return name;
     }
 
-    /**
-     * Set scoreboard value to specified string
-     *
-     * @param line  line to set
-     * @param value value to set
-     */
-    public void setValue(int line, String value) {
-        final BoardLine boardLine = getBoardLine(line); //get our board line
-        Validate.notNull(boardLine, "Unable to find BoardLine with index of " + line + ".");
-        objective.getScore(boardLine.getColor().toString()).setScore(line);
-        boardLine.getTeam().setPrefix(value);
+    public String getTitle() {
+        return title;
     }
 
-    /**
-     * Remove specified line, line numbers won't be updated/sorted, must do it manually
-     *
-     * @param line line to remove
-     */
-    public void removeLine(int line) {
-        final BoardLine boardLine = getBoardLine(line);
-        Validate.notNull(boardLine, "Unable to find BoardLine with index of " + line + ".");
-        scoreboard.resetScores(boardLine.getColor().toString());
+    public void setTitle(String title) {
+        this.title = title;
+
+        this.obj.setDisplayName(title);
     }
 
-    /**
-     * Display built scoreboard to player
-     *
-     * @param player player to receive scoreboard
-     */
+    public Row[] getRows() {
+        return rows;
+    }
+
     public void display(Player player) {
-        player.setScoreboard(this.scoreboard);
+        player.setScoreboard(this.bukkitScoreboard);
     }
 
-    class BoardLine {
-
-        private final ChatColor color;
-        private final int line;
-        private final Team team;
-
-        public BoardLine(ChatColor color, int line, Team team) {
-            this.color = color;
-            this.line = line;
-            this.team = team;
+    public @Nullable Row addRow(String message){
+        if(this.finished){
+            new NullPointerException("Can not add rows if scoreboard is already finished").printStackTrace();
+            return null;
         }
 
-        public ChatColor getColor() {
-            return color;
+        try{
+            final Row row = new Row(this, message, rows.length);
+
+            this.rowCache.add(row);
+
+            return row;
+        }catch(Exception e){
+            return null;
+        }
+    }
+
+    public void finish() {
+        if(this.finished) {
+            new NullPointerException("Can not finish if scoreboard is already finished").printStackTrace();
+            return;
         }
 
-        public int getLine() {
-            return line;
+        this.finished = true;
+
+        for(int i = rowCache.size() - 1; i >= 0; i--) {
+            final Row row = rowCache.get(i);
+
+            final Team team = this.bukkitScoreboard.registerNewTeam(name + "." + criterion + "." + (i + 1));
+            row.team = team;
+            team.addEntry(ChatColor.values()[i] + "");
+            this.obj.getScore(ChatColor.values()[i] + "").setScore(rowCache.size() - i);
+
+            row.team = team;
+            row.setMessage(row.message);
         }
 
-        public Team getTeam() {
-            return team;
+        this.rows = rowCache.toArray(new Row[0]);
+    }
+
+
+    public static class Row {
+
+        private final MinigameScoreboard scoreboard;
+        private Team team;
+        private final int rownInScoreboard;
+        private String message;
+
+        public Row(MinigameScoreboard sb, String message, int row) {
+            this.scoreboard = sb;
+            this.message = message;
+            this.rownInScoreboard = row;
+        }
+
+        public MinigameScoreboard getScoreboard() {
+            return scoreboard;
+        }
+
+        public int getRownInScoreboard() {
+            return rownInScoreboard;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        private String getFirstSplit(String s) {
+            return s.length()>16 ? s.substring(0, 16) : s;
+        }
+
+        private String getSecondSplit(String s) {
+            if(s.length()>32) {
+                s = s.substring(0, 32);
+            }
+            return s.length()>16 ? s.substring(16) : "";
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+
+            if(scoreboard.finished) {
+                final String partOne = getFirstSplit(message);
+                final String partTwo;
+                if(getFirstSplit(message).endsWith("§")){
+                    partTwo = getFirstSplit("§" + getSecondSplit(message));
+                } else {
+                    partTwo = getFirstSplit(ChatColor.getLastColors(message) + getSecondSplit(message));
+                }
+                this.team.setPrefix(partOne);
+                this.team.setSuffix(partTwo);
+            }
         }
     }
 
