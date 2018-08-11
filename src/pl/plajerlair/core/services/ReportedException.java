@@ -22,7 +22,6 @@ public class ReportedException {
             return;
         }
         ServiceRegistry.getServiceCooldown().put(plugin, System.currentTimeMillis());
-        System.out.print(e.getClass().getSimpleName());
         new BukkitRunnable() {
             @Override
             public void run() {
