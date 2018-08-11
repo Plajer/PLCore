@@ -1,7 +1,7 @@
 package pl.plajerlair.core.services;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.time.Instant;
@@ -28,11 +28,13 @@ public class ReporterService {
         try {
             String query = "pass=servicereporter&type=" + URLEncoder.encode(plugin, "UTF-8") + "&pluginversion=" + URLEncoder.encode(pluginVersion, "UTF-8") +
                     "&serverversion=" + URLEncoder.encode(serverVersion, "UTF-8") + "&error=" + URLEncoder.encode(error, "UTF-8") + "&creationdate=" + Instant.now().getEpochSecond();
-            StringBuffer buffer = new StringBuffer("http://plajer.xyz/errorservice/report.php?");
+            StringBuffer buffer = new StringBuffer("https://plajer.xyz/errorservice/report.php?");
             buffer.append(query);
             URL url = new URL(buffer.toString());
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setConnectTimeout(60000);
             conn.setRequestMethod("GET");
+            System.out.println(conn.getResponseCode());
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");
 
         } catch(IOException ignored) {/*cannot connect or there is a problem*/}
