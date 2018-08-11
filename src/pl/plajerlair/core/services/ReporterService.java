@@ -1,5 +1,7 @@
 package pl.plajerlair.core.services;
 
+import org.bukkit.Bukkit;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.net.URL;
@@ -32,11 +34,10 @@ public class ReporterService {
             buffer.append(query);
             URL url = new URL(buffer.toString());
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
             conn.setConnectTimeout(60000);
             conn.setRequestMethod("GET");
-            System.out.println(conn.getResponseCode());
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-
+            Bukkit.getConsoleSender().sendMessage("[Reporter service] Error reported! Code: " + conn.getResponseCode() + " (" + conn.getResponseMessage() + ")");
         } catch(IOException ignored) {/*cannot connect or there is a problem*/}
     }
 
