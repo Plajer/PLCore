@@ -26,8 +26,8 @@ public class ReportedException {
             @Override
             public void run() {
                 StringBuffer stacktrace = new StringBuffer(e.getClass().getSimpleName());
-                if(e.getCause() != null) {
-                    stacktrace.append(" (").append(e.getCause()).append(")");
+                if(e.getMessage() != null) {
+                    stacktrace.append(" (").append(e.getMessage()).append(")");
                 }
                 stacktrace.append("\n");
                 for(StackTraceElement str : e.getStackTrace()) {

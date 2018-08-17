@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.time.Instant;
 
 /**
@@ -28,15 +28,18 @@ public class ReporterService {
 
     public void reportException() {
         try {
-            String query = "pass=servicereporter&type=" + URLEncoder.encode(plugin, "UTF-8") + "&pluginversion=" + URLEncoder.encode(pluginVersion, "UTF-8") +
-                    "&serverversion=" + URLEncoder.encode(serverVersion, "UTF-8") + "&error=" + URLEncoder.encode(error, "UTF-8") + "&creationdate=" + Instant.now().getEpochSecond();
-            StringBuffer buffer = new StringBuffer("https://plajer.xyz/errorservice/report.php?");
-            buffer.append(query);
-            URL url = new URL(buffer.toString());
+            URL url = new URL("https://plajer.xyz/errorservice/report.php");
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-            conn.setConnectTimeout(60000);
-            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setDoOutput(true);
+
+            OutputStream os = conn.getOutputStream();
+            os.write(("pass=servicereporter&type=" + plugin + "&pluginversion=" + pluginVersion + "&serverversion=" + serverVersion + "&error=" + error + "&creationdate=" + Instant.now().getEpochSecond()).getBytes("UTF-8"));
+            os.flush();
+            os.close();
+
             Bukkit.getConsoleSender().sendMessage("[Reporter service] Error reported! Code: " + conn.getResponseCode() + " (" + conn.getResponseMessage() + ")");
         } catch(IOException ignored) {/*cannot connect or there is a problem*/}
     }
