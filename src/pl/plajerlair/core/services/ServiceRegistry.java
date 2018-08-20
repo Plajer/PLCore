@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Class for registering new services
@@ -20,6 +21,8 @@ public class ServiceRegistry {
             return false;
         }
         registeredPlugins.add(plugin);
+        plugin.getLogger().log(Level.INFO, "Hooked with ServiceRegistry! Initialized services properly!");
+        new MetricsService(plugin);
         return true;
     }
 
