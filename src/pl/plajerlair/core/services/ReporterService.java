@@ -6,7 +6,6 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
-import java.time.Instant;
 
 /**
  * Reporter service
@@ -36,7 +35,7 @@ public class ReporterService {
             conn.setDoOutput(true);
 
             OutputStream os = conn.getOutputStream();
-            os.write(("pass=servicereporter&type=" + plugin + "&pluginversion=" + pluginVersion + "&serverversion=" + serverVersion + "&error=" + error + "&creationdate=" + Instant.now().getEpochSecond()).getBytes("UTF-8"));
+            os.write(("pass=servicereporter&type=" + plugin + "&pluginversion=" + pluginVersion + "&serverversion=" + serverVersion + "&error=" + error).getBytes("UTF-8"));
             os.flush();
             os.close();
 
