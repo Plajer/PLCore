@@ -19,6 +19,7 @@ public class MetricsService {
 
     private JavaPlugin plugin;
 
+    //don't create it outside core
     MetricsService(JavaPlugin plugin) {
         this.plugin = plugin;
         metricsSchedulerTask();

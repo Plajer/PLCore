@@ -15,14 +15,16 @@ public class ServiceRegistry {
 
     private static List<JavaPlugin> registeredPlugins = new ArrayList<>();
     private static Map<JavaPlugin, Long> serviceCooldown = new HashMap<>();
+    private static LocaleService localeService;
 
-    public static boolean registerService(JavaPlugin plugin){
-        if(registeredPlugins.contains(plugin)){
+    public static boolean registerService(JavaPlugin plugin) {
+        if(registeredPlugins.contains(plugin)) {
             return false;
         }
         registeredPlugins.add(plugin);
         plugin.getLogger().log(Level.INFO, "Hooked with ServiceRegistry! Initialized services properly!");
         new MetricsService(plugin);
+        localeService = new LocaleService(plugin);
         return true;
     }
 
@@ -32,5 +34,12 @@ public class ServiceRegistry {
 
     public static Map<JavaPlugin, Long> getServiceCooldown() {
         return serviceCooldown;
+    }
+
+    public static LocaleService getLocaleService(JavaPlugin plugin) {
+        if(!registeredPlugins.contains(plugin)) {
+            return null;
+        }
+        return localeService;
     }
 }
