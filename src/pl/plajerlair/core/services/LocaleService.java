@@ -84,7 +84,7 @@ public class LocaleService {
         if(localeData == null) {
             return DownloadStatus.FAIL;
         }
-        if(!new File(plugin.getDataFolder() + "/locales/" + locale + ".properties").exists()){
+        if(!new File(plugin.getDataFolder() + "/locales/" + locale + ".properties").exists()) {
             try {
                 String data = IOUtils.toString(requestLocaleFetch(locale), StandardCharsets.UTF_8);
                 FileUtils.write(new File(plugin.getDataFolder().getPath() + "/locales/" + locale + ".properties"), data, StandardCharsets.UTF_8);

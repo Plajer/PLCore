@@ -25,7 +25,7 @@ public class MigratorUtils {
      */
     public static void removeLineFromFile(File file, String lineToRemove) {
         try {
-            List<String> lines = FileUtils.readLines(file);
+            List<String> lines = FileUtils.readLines(file, StandardCharsets.UTF_8);
             List<String> updatedLines = lines.stream().filter(s -> !s.contains(lineToRemove)).collect(Collectors.toList());
             FileUtils.writeLines(file, updatedLines, false);
         } catch(IOException e) {
