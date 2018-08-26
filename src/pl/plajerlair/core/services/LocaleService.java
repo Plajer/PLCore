@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 /**
  * Localization service used for fetching latest locales for minigames
@@ -117,7 +118,23 @@ public class LocaleService {
         if(localeData == null) {
             return false;
         }
-        return localeData.getString("locales.valid-version", "0").equals(plugin.getDescription().getVersion());
+        return !checkHigher(plugin.getDescription().getVersion(), localeData.getString("locales.valid-version", "0"));
+    }
+
+    private boolean checkHigher(String currentVersion, String newVersion) {
+        String current = toReadable(currentVersion);
+        String newVer = toReadable(newVersion);
+        return current.compareTo(newVer) < 0;
+    }
+
+    private String toReadable(String version) {
+        String[] split = Pattern.compile(".", Pattern.LITERAL).split(version.replace("v", ""));
+        StringBuilder versionBuilder = new StringBuilder();
+        for(String s : split) {
+            versionBuilder.append(String.format("%4s", s));
+        }
+        version = versionBuilder.toString();
+        return version;
     }
 
     /**
