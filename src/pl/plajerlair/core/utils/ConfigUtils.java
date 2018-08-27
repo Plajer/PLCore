@@ -45,7 +45,7 @@ public class ConfigUtils {
             config.load(file);
         } catch(InvalidConfigurationException | IOException ex) {
             ex.printStackTrace();
-            MessageUtils.errorOccured();
+            InternalUtils.errorOccured();
             Bukkit.getConsoleSender().sendMessage("Cannot load file " + filename + ".yml!");
             Bukkit.getConsoleSender().sendMessage("Create blank file " + filename + ".yml or restart the server!");
         }
@@ -64,7 +64,7 @@ public class ConfigUtils {
             config.save(new File(plugin.getDataFolder(), name + ".yml"));
         } catch(IOException e) {
             e.printStackTrace();
-            MessageUtils.errorOccured();
+            InternalUtils.errorOccured();
             Bukkit.getConsoleSender().sendMessage("Cannot save file " + name + ".yml!");
             Bukkit.getConsoleSender().sendMessage("Create blank file " + name + ".yml or restart the server!");
         }

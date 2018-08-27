@@ -5,6 +5,7 @@ import org.apache.commons.io.IOUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.plajerlair.core.utils.ConfigUtils;
+import pl.plajerlair.core.utils.InternalUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.File;
@@ -85,26 +86,27 @@ public class LocaleService {
             return DownloadStatus.FAIL;
         }
         if(!new File(plugin.getDataFolder() + "/locales/" + locale + ".properties").exists()) {
-            try {
-                String data = IOUtils.toString(requestLocaleFetch(locale), StandardCharsets.UTF_8);
-                FileUtils.write(new File(plugin.getDataFolder().getPath() + "/locales/" + locale + ".properties"), data, StandardCharsets.UTF_8);
-                return DownloadStatus.SUCCESS;
-            } catch(IOException ignored) {
-                plugin.getLogger().log(Level.WARNING, "Demanded locale " + locale + " cannot be downloaded! You should notify author!");
-                return DownloadStatus.FAIL;
-            }
+            return writeFile(locale);
         }
         if(localeData.getInt("locales." + locale + ".version") > ConfigUtils.getConfig(plugin, "/locales/origin_data").getInt("locales." + locale + ".version", -1)) {
-            try {
-                String data = IOUtils.toString(requestLocaleFetch(locale), StandardCharsets.UTF_8);
-                FileUtils.write(new File(plugin.getDataFolder().getPath() + "/locales/" + locale + ".properties"), data, StandardCharsets.UTF_8);
-                return DownloadStatus.SUCCESS;
-            } catch(IOException ignored) {
-                plugin.getLogger().log(Level.WARNING, "Demanded locale " + locale + " cannot be downloaded! You should notify author!");
-                return DownloadStatus.FAIL;
-            }
+            return writeFile(locale);
         } else {
             return DownloadStatus.LATEST;
+        }
+    }
+
+    private DownloadStatus writeFile(String locale){
+        try {
+            String data = IOUtils.toString(requestLocaleFetch(locale), StandardCharsets.UTF_8);
+            FileUtils.write(new File(plugin.getDataFolder().getPath() + "/locales/" + locale + ".properties"), data, StandardCharsets.UTF_8);
+
+            FileConfiguration config = ConfigUtils.getConfig(plugin, "/locales/origin_data");
+            config.set("locales." + locale, localeData.getInt("locales." + locale, 0));
+            ConfigUtils.saveConfig(plugin, config, "/locales/origin_data");
+            return DownloadStatus.SUCCESS;
+        } catch(IOException ignored) {
+            plugin.getLogger().log(Level.WARNING, "Demanded locale " + locale + " cannot be downloaded! You should notify author!");
+            return DownloadStatus.FAIL;
         }
     }
 
@@ -122,19 +124,9 @@ public class LocaleService {
     }
 
     private boolean checkHigher(String currentVersion, String newVersion) {
-        String current = toReadable(currentVersion);
-        String newVer = toReadable(newVersion);
+        String current = InternalUtils.toReadable(currentVersion);
+        String newVer = InternalUtils.toReadable(newVersion);
         return current.compareTo(newVer) < 0;
-    }
-
-    private String toReadable(String version) {
-        String[] split = Pattern.compile(".", Pattern.LITERAL).split(version.replace("v", ""));
-        StringBuilder versionBuilder = new StringBuilder();
-        for(String s : split) {
-            versionBuilder.append(String.format("%4s", s));
-        }
-        version = versionBuilder.toString();
-        return version;
     }
 
     /**

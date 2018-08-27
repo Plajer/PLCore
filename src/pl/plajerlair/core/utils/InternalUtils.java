@@ -3,10 +3,12 @@ package pl.plajerlair.core.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import java.util.regex.Pattern;
+
 /**
  * Only for core usages
  */
-public class MessageUtils {
+public class InternalUtils {
 
     static void errorOccured() {
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "  _____                                                                                  _   _ ");
@@ -17,5 +19,14 @@ public class MessageUtils {
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "                                                                                               ");
     }
 
+    public static String toReadable(String version) {
+        String[] split = Pattern.compile(".", Pattern.LITERAL).split(version.replace("v", ""));
+        StringBuilder versionBuilder = new StringBuilder();
+        for(String s : split) {
+            versionBuilder.append(String.format("%4s", s));
+        }
+        version = versionBuilder.toString();
+        return version;
+    }
 
 }

@@ -17,8 +17,8 @@ public class UpdateChecker {
     private static String latestVersion;
 
     private static boolean checkHigher(String currentVersion, String newVersion) {
-        String current = toReadable(currentVersion);
-        String newVer = toReadable(newVersion);
+        String current = InternalUtils.toReadable(currentVersion);
+        String newVer = InternalUtils.toReadable(newVersion);
         return current.compareTo(newVer) < 0;
     }
 
@@ -65,13 +65,4 @@ public class UpdateChecker {
         return version;
     }
 
-    private static String toReadable(String version) {
-        String[] split = Pattern.compile(".", Pattern.LITERAL).split(version.replace("v", ""));
-        StringBuilder versionBuilder = new StringBuilder();
-        for(String s : split) {
-            versionBuilder.append(String.format("%4s", s));
-        }
-        version = versionBuilder.toString();
-        return version;
-    }
 }
