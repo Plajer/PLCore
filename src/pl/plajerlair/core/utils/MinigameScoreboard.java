@@ -60,19 +60,19 @@ public class MinigameScoreboard {
         player.setScoreboard(this.bukkitScoreboard);
     }
 
-    public @Nullable Row addRow(String message){
-        if(this.finished){
+    public @Nullable Row addRow(String message) {
+        if(this.finished) {
             new NullPointerException("Can not add rows if scoreboard is already finished").printStackTrace();
             return null;
         }
 
-        try{
+        try {
             final Row row = new Row(this, message, rows.length);
 
             this.rowCache.add(row);
 
             return row;
-        }catch(Exception e){
+        } catch(Exception e) {
             return null;
         }
     }
@@ -104,8 +104,8 @@ public class MinigameScoreboard {
     public static class Row {
 
         private final MinigameScoreboard scoreboard;
-        private Team team;
         private final int rownInScoreboard;
+        private Team team;
         private String message;
 
         public Row(MinigameScoreboard sb, String message, int row) {
@@ -126,24 +126,14 @@ public class MinigameScoreboard {
             return message;
         }
 
-        private String getFirstSplit(String s) {
-            return s.length()>16 ? s.substring(0, 16) : s;
-        }
-
-        private String getSecondSplit(String s) {
-            if(s.length()>32) {
-                s = s.substring(0, 32);
-            }
-            return s.length()>16 ? s.substring(16) : "";
-        }
-
         public void setMessage(String message) {
             this.message = message;
 
             if(scoreboard.finished) {
-                final String partOne = getFirstSplit(message);
-                final String partTwo;
-                if(getFirstSplit(message).endsWith("§")){
+                String partOne = getFirstSplit(message);
+                String partTwo;
+                if(getFirstSplit(message).endsWith("§")) {
+                    partOne = partOne.substring(0, partOne.length() - 1);
                     partTwo = getFirstSplit("§" + getSecondSplit(message));
                 } else {
                     partTwo = getFirstSplit(ChatColor.getLastColors(partOne) + getSecondSplit(message));
@@ -151,6 +141,17 @@ public class MinigameScoreboard {
                 this.team.setPrefix(partOne);
                 this.team.setSuffix(partTwo);
             }
+        }
+
+        private String getFirstSplit(String s) {
+            return s.length() > 16 ? s.substring(0, 16) : s;
+        }
+
+        private String getSecondSplit(String s) {
+            if(s.length() > 32) {
+                s = s.substring(0, 32);
+            }
+            return s.length() > 16 ? s.substring(16) : "";
         }
     }
 
