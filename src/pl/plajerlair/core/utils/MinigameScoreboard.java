@@ -146,7 +146,7 @@ public class MinigameScoreboard {
                 if(getFirstSplit(message).endsWith("§")){
                     partTwo = getFirstSplit("§" + getSecondSplit(message));
                 } else {
-                    partTwo = getFirstSplit(ChatColor.getLastColors(message) + getSecondSplit(message));
+                    partTwo = getFirstSplit(ChatColor.getLastColors(partOne) + getSecondSplit(message));
                 }
                 this.team.setPrefix(partOne);
                 this.team.setSuffix(partTwo);
