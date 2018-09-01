@@ -30,17 +30,21 @@ public class UpdateChecker {
      * @param plugin         requesting plugin
      * @param currentVersion current plugin version from plugin.yml
      * @param resourceID     spigotmc resource ID to check
+     * @return true if there is update false otherwise
+     * @see #getLatestVersion() when return is true to get it
      */
-    public static void checkUpdate(JavaPlugin plugin, String currentVersion, int resourceID) {
+    public static boolean checkUpdate(JavaPlugin plugin, String currentVersion, int resourceID) {
         String version = getVersion(resourceID);
         if(version.contains("b")) {
             if(!plugin.getConfig().getBoolean("Update-Notifier.Notify-Beta-Versions", true)) {
-                return;
+                return false;
             }
         }
         if(checkHigher(currentVersion, version)) {
             latestVersion = version;
+            return true;
         }
+        return false;
     }
 
     /**
