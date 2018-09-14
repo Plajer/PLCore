@@ -1,11 +1,12 @@
-package pl.plajerlair.core.services;
+package pl.plajerlair.core.services.locale;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.plajerlair.core.services.ServiceRegistry;
 import pl.plajerlair.core.utils.ConfigUtils;
-import pl.plajerlair.core.utils.InternalUtils;
+import pl.plajerlair.core.utils.internal.InternalUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.File;
@@ -15,7 +16,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
-import java.util.regex.Pattern;
 
 /**
  * Localization service used for fetching latest locales for minigames
@@ -25,8 +25,10 @@ public class LocaleService {
     private JavaPlugin plugin;
     private FileConfiguration localeData;
 
-    //don't create it outside core
-    LocaleService(JavaPlugin plugin) {
+    public LocaleService(JavaPlugin plugin) {
+        if(!ServiceRegistry.getRegisteredPlugins().contains(plugin)) {
+            throw new IllegalArgumentException("LocaleReaderService cannot be used without registering service via ServiceRegistry first!");
+        }
         this.plugin = plugin;
         try {
             String data = IOUtils.toString(requestLocaleFetch(null), StandardCharsets.UTF_8);
@@ -95,7 +97,7 @@ public class LocaleService {
         }
     }
 
-    private DownloadStatus writeFile(String locale){
+    private DownloadStatus writeFile(String locale) {
         try {
             String data = IOUtils.toString(requestLocaleFetch(locale), StandardCharsets.UTF_8);
             FileUtils.write(new File(plugin.getDataFolder().getPath() + "/locales/" + locale + ".properties"), data, StandardCharsets.UTF_8);

@@ -1,19 +1,14 @@
 package pl.plajerlair.core.utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -90,16 +85,6 @@ public class MinigameUtils {
     }
 
     /**
-     * Save location to string ex world,10,20,30
-     *
-     * @param location location to string
-     * @return location saved to string
-     */
-    public static String locationToString(Location location) {
-        return location.getWorld().getName() + "," + location.getX() + "," + location.getY() + "," + location.getZ();
-    }
-
-    /**
      * Spawns random firework at location
      *
      * @param location location to spawn firework there
@@ -153,24 +138,18 @@ public class MinigameUtils {
         fw.setFireworkMeta(fwm);
     }
 
-    public static void saveLoc(JavaPlugin plugin, FileConfiguration file, String fileName, String path, Location loc) {
-        String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
-        file.set(path, location);
-        ConfigUtils.saveConfig(plugin, file, fileName);
-    }
-
-    public static Location getLocation(String path) {
-        String[] loc = path.split(",");
-        Bukkit.getServer().createWorld(new WorldCreator(loc[0]));
-        World w = Bukkit.getServer().getWorld(loc[0]);
-        Double x = Double.parseDouble(loc[1]);
-        Double y = Double.parseDouble(loc[2]);
-        Double z = Double.parseDouble(loc[3]);
-        float yaw = Float.parseFloat(loc[4]);
-        float pitch = Float.parseFloat(loc[5]);
-        return new Location(w, x, y, z, yaw, pitch);
-    }
-
+    /**
+     * Returns progress bar in a string.
+     * Whole code can be found https://www.spigotmc.org/threads/progress-bars-and-percentages.276020/
+     *
+     * @param current           current percentage
+     * @param max               maximum percentage
+     * @param totalBars         maximum bars amount
+     * @param symbol            symbol of the bar (ex. '|')
+     * @param completedColor    color of completed bar
+     * @param notCompletedColor color of not completed bar
+     * @return String with requested progress
+     */
     public static String getProgressBar(int current, int max, int totalBars, String symbol, String completedColor, String notCompletedColor) {
 
         float percent = (float) current / max;

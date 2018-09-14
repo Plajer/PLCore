@@ -1,13 +1,13 @@
 package pl.plajerlair.core.utils;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.plajerlair.core.utils.internal.InternalUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.regex.Pattern;
 
 /**
  * Check updates of plugin

@@ -1,8 +1,9 @@
-package pl.plajerlair.core.services;
+package pl.plajerlair.core.services.metrics;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import pl.plajerlair.core.services.ServiceRegistry;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -11,21 +12,21 @@ import java.net.InetAddress;
 import java.net.URL;
 
 /**
- * @author Plajer
- * <p>
- * Created at 20.08.2018
+ * Metrics service for sending usage data
  */
 public class MetricsService {
 
     private JavaPlugin plugin;
 
-    //don't create it outside core
-    MetricsService(JavaPlugin plugin) {
+    public MetricsService(JavaPlugin plugin) {
+        if(!ServiceRegistry.getRegisteredPlugins().contains(plugin)) {
+            throw new IllegalArgumentException("MetricsService cannot be used without registering service via ServiceRegistry first!");
+        }
         this.plugin = plugin;
         metricsSchedulerTask();
     }
 
-    public void metricsSchedulerTask() {
+    private void metricsSchedulerTask() {
         new BukkitRunnable() {
             @Override
             public void run() {

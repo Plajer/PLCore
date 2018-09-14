@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Create game scoreboard here
  */
-public class MinigameScoreboard {
+public class GameScoreboard {
 
     private final String name, criterion;
 
@@ -26,7 +26,7 @@ public class MinigameScoreboard {
     private List<Row> rowCache = new ArrayList<>();
     private boolean finished = false;
 
-    public MinigameScoreboard(String name, String criterion, String title) {
+    public GameScoreboard(String name, String criterion, String title) {
         this.name = name;
         this.criterion = criterion;
         this.title = title;
@@ -38,10 +38,16 @@ public class MinigameScoreboard {
         this.obj.setDisplayName(title);
     }
 
+    /**
+     * @return identifier of scoreboard
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return title bar of scoreboard
+     */
     public String getTitle() {
         return title;
     }
@@ -60,7 +66,8 @@ public class MinigameScoreboard {
         player.setScoreboard(this.bukkitScoreboard);
     }
 
-    public @Nullable Row addRow(String message) {
+    public @Nullable
+    Row addRow(String message) {
         if(this.finished) {
             new NullPointerException("Can not add rows if scoreboard is already finished").printStackTrace();
             return null;
@@ -103,18 +110,18 @@ public class MinigameScoreboard {
 
     public static class Row {
 
-        private final MinigameScoreboard scoreboard;
+        private final GameScoreboard scoreboard;
         private final int rownInScoreboard;
         private Team team;
         private String message;
 
-        public Row(MinigameScoreboard sb, String message, int row) {
+        public Row(GameScoreboard sb, String message, int row) {
             this.scoreboard = sb;
             this.message = message;
             this.rownInScoreboard = row;
         }
 
-        public MinigameScoreboard getScoreboard() {
+        public GameScoreboard getScoreboard() {
             return scoreboard;
         }
 

@@ -1,4 +1,4 @@
-package pl.plajerlair.core.services;
+package pl.plajerlair.core.services.exception;
 
 import org.bukkit.Bukkit;
 
@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.URL;
 
 /**
- * Reporter service
+ * Reporter service for reporting exceptions directly to website reporter panel
  */
 public class ReporterService {
 

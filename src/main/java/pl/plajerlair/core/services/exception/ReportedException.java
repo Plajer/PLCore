@@ -1,7 +1,8 @@
-package pl.plajerlair.core.services;
+package pl.plajerlair.core.services.exception;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import pl.plajerlair.core.services.ServiceRegistry;
 
 /**
  * Create reported exception with data sent to plajer.xyz reporter service

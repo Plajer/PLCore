@@ -1,6 +1,8 @@
 package pl.plajerlair.core.services;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.plajerlair.core.services.locale.LocaleService;
+import pl.plajerlair.core.services.metrics.MetricsService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

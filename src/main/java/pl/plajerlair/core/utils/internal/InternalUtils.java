@@ -1,4 +1,4 @@
-package pl.plajerlair.core.utils;
+package pl.plajerlair.core.utils.internal;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class InternalUtils {
 
-    static void errorOccured() {
+    public static void errorOccurred() {
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "  _____                                                                                  _   _ ");
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " | ____|  _ __   _ __    ___    _ __      ___     ___    ___   _   _   _ __    ___    __| | | |");
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " |  _|   | '__| | '__|  / _ \\  | '__|    / _ \\   / __|  / __| | | | | | '__|  / _ \\  / _` | | |");
