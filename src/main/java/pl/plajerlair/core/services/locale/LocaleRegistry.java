@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Registry class for holding locales
  *
- * @since 2.0.0
+ * @since 1.2.0
  */
 public class LocaleRegistry {
 

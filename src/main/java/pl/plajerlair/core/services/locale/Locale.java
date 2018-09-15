@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Class for locales
  *
- * @since 2.0.0
+ * @since 1.2.0
  */
 public class Locale {
 
@@ -15,7 +15,7 @@ public class Locale {
     private String author;
     private List<String> aliases;
 
-    Locale(String name, String originalName, String prefix, String author, List<String> aliases) {
+    public Locale(String name, String originalName, String prefix, String author, List<String> aliases) {
         this.prefix = prefix;
         this.name = name;
         this.originalName = originalName;
