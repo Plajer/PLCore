@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Metrics service for sending usage data
@@ -41,7 +42,7 @@ public class MetricsService {
                     OutputStream os = conn.getOutputStream();
                     os.write(("pass=metricsservice&type=" + plugin.getName() + "&pluginversion=" + plugin.getDescription().getVersion() +
                             "&serverversion=" + plugin.getServer().getBukkitVersion() + "&ip=" + InetAddress.getLocalHost().getHostAddress() + ":" + plugin.getServer().getPort() +
-                            "&playersonline=" + Bukkit.getOnlinePlayers().size()).getBytes("UTF-8"));
+                            "&playersonline=" + Bukkit.getOnlinePlayers().size()).getBytes(StandardCharsets.UTF_8));
                     os.flush();
                     os.close();
                 } catch(IOException ignored) {/*cannot connect or there is a problem*/}
