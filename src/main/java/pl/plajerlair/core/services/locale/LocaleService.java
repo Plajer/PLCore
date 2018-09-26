@@ -47,7 +47,7 @@ public class LocaleService {
 
     private InputStream requestLocaleFetch(String locale) {
         try {
-            URL url = new URL("https://plajer.xyz/localeservice/fetch.php");
+            URL url = new URL("https://api.plajer.xyz/locale/fetch.php");
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");

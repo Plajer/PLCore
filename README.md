@@ -12,7 +12,7 @@ Add repository
     <repositories>
         <repository>
             <id>plajerlair-repo</id>
-            <url>https://plajer.xyz/mvn/repo</url>
+            <url>https://maven.plajer.xyz/</url>
         </repository>
     </repositories>
 ```
@@ -22,7 +22,7 @@ Then add the dependency
             <dependency>
             <groupId>pl.plajerlair</groupId>
             <artifactId>plcore</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2</version>
             <scope>compile</scope>
         </dependency>
 ```

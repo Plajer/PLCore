@@ -32,7 +32,7 @@ public class MetricsService {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("https://plajer.xyz/metricsservice/receiver.php");
+                    URL url = new URL("https://api.plajer.xyz/metrics/receiver.php");
                     HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("User-Agent", "Mozilla/5.0");
