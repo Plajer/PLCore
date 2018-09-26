@@ -12,7 +12,7 @@ Add repository
     <repositories>
         <repository>
             <id>plajerlair-repo</id>
-            <url>https://maven.plajer.xyz/</url>
+            <url>https://maven.plajer.xyz/minecraft</url>
         </repository>
     </repositories>
 ```
