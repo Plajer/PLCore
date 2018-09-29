@@ -27,7 +27,7 @@ public class ReporterService {
 
     public void reportException() {
         try {
-            URL url = new URL("https://api.plajer.xyz/error/report.php");
+            URL url = new URL("https://plajer.xyz/errorservice/report.php");
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");
