@@ -1,3 +1,4 @@
+pl.plajerlair.core.database
 pl.plajerlair.core.services
 pl.plajerlair.core.services.exception
 pl.plajerlair.core.services.locale
