@@ -22,19 +22,19 @@ import pl.plajerlair.core.utils.XMaterial;
  */
 public class SpectatorSettingsMenu implements Listener {
 
-    private static String inventoryName;
-    private static String speedOptionName;
-    private static Inventory inv;
+    private String inventoryName;
+    private String speedOptionName;
+    private Inventory inv;
 
     public SpectatorSettingsMenu(JavaPlugin plugin, String inventoryName, String speedOptionName) {
-        SpectatorSettingsMenu.inventoryName = inventoryName;
-        SpectatorSettingsMenu.speedOptionName = speedOptionName;
+        this.inventoryName = inventoryName;
+        this.speedOptionName = speedOptionName;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         initInventory();
     }
 
     public void openSpectatorSettingsMenu(Player player) {
-        player.openInventory(SpectatorSettingsMenu.inv);
+        player.openInventory(this.inv);
     }
 
     @EventHandler
@@ -64,7 +64,7 @@ public class SpectatorSettingsMenu implements Listener {
                 .name(color(speedOptionName + " IV")).build());
         inv.setItem(15, new ItemBuilder(new ItemStack(Material.DIAMOND_BOOTS, 1))
                 .name(color(speedOptionName + " V")).build());
-        SpectatorSettingsMenu.inv = inv;
+        this.inv = inv;
     }
 
     private String color(String message) {
