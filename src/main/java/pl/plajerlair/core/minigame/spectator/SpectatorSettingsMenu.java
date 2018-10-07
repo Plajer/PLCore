@@ -48,14 +48,19 @@ public class SpectatorSettingsMenu implements Listener {
         Player p = (Player) e.getWhoClicked();
         p.closeInventory();
         if(e.getCurrentItem().getType() == Material.LEATHER_BOOTS) {
+            p.removePotionEffect(PotionEffectType.SPEED);
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, false, false));
         } else if(e.getCurrentItem().getType() == Material.CHAINMAIL_BOOTS) {
+            p.removePotionEffect(PotionEffectType.SPEED);
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 2, false, false));
         } else if(e.getCurrentItem().getType() == Material.IRON_BOOTS) {
+            p.removePotionEffect(PotionEffectType.SPEED);
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3, false, false));
         } else if(e.getCurrentItem().getType() == XMaterial.GOLDEN_BOOTS.parseMaterial()) {
+            p.removePotionEffect(PotionEffectType.SPEED);
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 4, false, false));
         } else if(e.getCurrentItem().getType() == Material.DIAMOND_BOOTS) {
+            p.removePotionEffect(PotionEffectType.SPEED);
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 5, false, false));
         }
     }
