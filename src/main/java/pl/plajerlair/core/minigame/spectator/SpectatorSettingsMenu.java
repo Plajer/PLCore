@@ -33,7 +33,7 @@ public class SpectatorSettingsMenu implements Listener {
         initInventory();
     }
 
-    public static void openSpectatorSettingsMenu(Player player) {
+    public void openSpectatorSettingsMenu(Player player) {
         player.openInventory(SpectatorSettingsMenu.inv);
     }
 
