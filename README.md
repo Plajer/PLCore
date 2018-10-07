@@ -22,7 +22,7 @@ Then add the dependency
             <dependency>
             <groupId>pl.plajerlair</groupId>
             <artifactId>plcore</artifactId>
-            <version>1.2.5</version>
+            <version>1.3.0</version>
             <scope>compile</scope>
         </dependency>
 ```
