@@ -47,7 +47,7 @@ public class MetricsService {
                     os.close();
                 } catch(IOException ignored) {/*cannot connect or there is a problem*/}
             }
-        }.runTaskTimerAsynchronously(plugin, 20 * 60 * 30, 20 * 60 * 30);
+        }.runTaskTimer(plugin, 20 * 60 * 30, 20 * 60 * 30);
     }
 
 }
