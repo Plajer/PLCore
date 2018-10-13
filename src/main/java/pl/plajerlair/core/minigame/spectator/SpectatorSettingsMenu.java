@@ -26,13 +26,11 @@ public class SpectatorSettingsMenu implements Listener {
 
   private String inventoryName;
   private String speedOptionName;
-  private String nightvisionOptionName;
   private Inventory inv;
 
-  public SpectatorSettingsMenu(JavaPlugin plugin, String inventoryName, String speedOptionName, String nightvisionOptionName) {
+  public SpectatorSettingsMenu(JavaPlugin plugin, String inventoryName, String speedOptionName) {
     this.inventoryName = inventoryName;
     this.speedOptionName = speedOptionName;
-    this.nightvisionOptionName = nightvisionOptionName;
     plugin.getServer().getPluginManager().registerEvents(this, plugin);
     initInventory();
   }
@@ -66,16 +64,6 @@ public class SpectatorSettingsMenu implements Listener {
     } else if (e.getCurrentItem().getType() == Material.DIAMOND_BOOTS) {
       p.removePotionEffect(PotionEffectType.SPEED);
       p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 4, false, false));
-    } else if (e.getCurrentItem().getType() == Material.ENDER_PEARL) {
-      p.removePotionEffect(PotionEffectType.NIGHT_VISION);
-      p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false));
-      inv.removeItem(new ItemStack(Material.ENDER_PEARL));
-      inv.setItem(20, new ItemBuilder(new ItemStack(Material.EYE_OF_ENDER, 1))
-          .name(color(nightvisionOptionName + " OFF")).build());
-    } else if (e.getCurrentItem().getType() == Material.EYE_OF_ENDER) {
-      p.removePotionEffect(PotionEffectType.NIGHT_VISION);
-      inv.setItem(20, new ItemBuilder(new ItemStack(Material.ENDER_PEARL, 1))
-          .name(color(nightvisionOptionName + " ON")).build());
     }
   }
 
@@ -91,8 +79,6 @@ public class SpectatorSettingsMenu implements Listener {
         .name(color(speedOptionName + " IV")).build());
     inv.setItem(15, new ItemBuilder(new ItemStack(Material.DIAMOND_BOOTS, 1))
         .name(color(speedOptionName + " V")).build());
-    inv.setItem(20, new ItemBuilder(new ItemStack(Material.ENDER_PEARL, 1))
-        .name(color(nightvisionOptionName + " ON")).build());
     this.inv = inv;
   }
 
