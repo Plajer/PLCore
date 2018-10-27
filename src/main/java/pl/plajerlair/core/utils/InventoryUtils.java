@@ -166,7 +166,7 @@ public class InventoryUtils {
                 }
                 player.getInventory().setArmorContents(armor);
                 player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(invConfig.getDouble("Max health"));
-                player.setExp((float) invConfig.get("Exp"));
+                player.setExp((float) invConfig.getDouble("Exp"));
                 player.setHealth(invConfig.getDouble("Current health"));
                 player.setFoodLevel(invConfig.getInt("Food"));
                 player.setSaturation((float) invConfig.get("Saturation"));
