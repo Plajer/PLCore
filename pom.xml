@@ -61,6 +61,23 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <windowtitle>PLCore API docs for v${project.version}</windowtitle>
+                    <description>Minecraft API core for minigames with useful utilities.
+                    </description>
+                    <destDir>minecraft/plcore</destDir>
+                    <isOffline>false</isOffline>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
@@ -69,15 +86,24 @@
                 </configuration>
             </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>3.0.0</version>
+            </extension>
+        </extensions>
     </build>
 
     <distributionManagement>
         <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>plajerlair.repo</id>
-            <name>Plajer's Lair repo</name>
-            <url>file:///${project.basedir}/mvn/repo</url>
+            <id>plajer-lair-repo</id>
+            <url>ftp://54.38.159.68</url>
         </repository>
+        <site>
+            <id>plajer-lair-java-docs</id>
+            <url>ftp://54.38.159.68</url>
+        </site>
     </distributionManagement>
 
     <licenses>
