@@ -6,6 +6,7 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Reporter service for reporting exceptions directly to website reporter panel
@@ -27,15 +28,15 @@ public class ReporterService {
 
     public void reportException() {
         try {
-            URL url = new URL("https://plajer.xyz/errorservice/report.php");
+            URL url = new URL("https://api.plajer.xyz/error/report.php");
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("User-Agent", "PLService/1.0");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setDoOutput(true);
 
             OutputStream os = conn.getOutputStream();
-            os.write(("pass=servicereporter&type=" + plugin + "&pluginversion=" + pluginVersion + "&serverversion=" + serverVersion + "&error=" + error).getBytes("UTF-8"));
+            os.write(("pass=servicereporter&type=" + plugin + "&pluginversion=" + pluginVersion + "&serverversion=" + serverVersion + "&error=" + error).getBytes(StandardCharsets.UTF_8));
             os.flush();
             os.close();
 

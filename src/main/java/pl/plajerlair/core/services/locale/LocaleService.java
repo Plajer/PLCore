@@ -47,18 +47,18 @@ public class LocaleService {
 
     private InputStream requestLocaleFetch(String locale) {
         try {
-            URL url = new URL("https://plajer.xyz/localeservice/fetch.php");
+            URL url = new URL("https://api.plajer.xyz/locale/fetch.php");
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("User-Agent", "PLLocale/1.0");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setDoOutput(true);
 
             OutputStream os = conn.getOutputStream();
             if(locale == null) {
-                os.write(("pass=localeservice&type=" + plugin.getName()).getBytes("UTF-8"));
+                os.write(("pass=localeservice&type=" + plugin.getName()).getBytes(StandardCharsets.UTF_8));
             } else {
-                os.write(("pass=localeservice&type=" + plugin.getName() + "&locale=" + locale).getBytes("UTF-8"));
+                os.write(("pass=localeservice&type=" + plugin.getName() + "&locale=" + locale).getBytes(StandardCharsets.UTF_8));
             }
             os.flush();
             os.close();

@@ -62,6 +62,10 @@ public class GameScoreboard {
         return rows;
     }
 
+    public Scoreboard getBukkitScoreboard() {
+        return bukkitScoreboard;
+    }
+
     public void display(Player player) {
         player.setScoreboard(this.bukkitScoreboard);
     }

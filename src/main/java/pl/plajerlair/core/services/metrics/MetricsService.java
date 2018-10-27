@@ -32,10 +32,10 @@ public class MetricsService {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("https://plajer.xyz/metricsservice/receiver.php");
+                    URL url = new URL("https://api.plajer.xyz/metrics/receiver.php");
                     HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
-                    conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    conn.setRequestProperty("User-Agent", "PLMetrics/1.0");
                     conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                     conn.setDoOutput(true);
 
@@ -47,7 +47,7 @@ public class MetricsService {
                     os.close();
                 } catch(IOException ignored) {/*cannot connect or there is a problem*/}
             }
-        }.runTaskTimer(plugin, 20 * 60 * 30, 20 * 60 * 30);
+        }.runTaskTimerAsynchronously(plugin, 20 * 60 * 30, 20 * 60 * 30);
     }
 
 }
