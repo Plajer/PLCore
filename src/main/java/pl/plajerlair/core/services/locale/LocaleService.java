@@ -26,8 +26,11 @@ public class LocaleService {
     private FileConfiguration localeData;
 
     public LocaleService(JavaPlugin plugin) {
-        if(!ServiceRegistry.getRegisteredPlugins().contains(plugin)) {
-            throw new IllegalArgumentException("LocaleReaderService cannot be used without registering service via ServiceRegistry first!");
+        if(ServiceRegistry.getRegisteredService() == null || !ServiceRegistry.getRegisteredService().equals(plugin)) {
+            throw new IllegalArgumentException("LocaleService cannot be used without registering service via ServiceRegistry first!");
+        }
+        if(!ServiceRegistry.isServiceEnabled()) {
+            return;
         }
         this.plugin = plugin;
         try {

@@ -13,16 +13,16 @@ public class ReportedException {
 
     public ReportedException(JavaPlugin plugin, Exception e) {
         e.printStackTrace();
-        if(!ServiceRegistry.getRegisteredPlugins().contains(plugin)) {
+        if(!ServiceRegistry.isServiceEnabled()) {
             return;
         }
-        if(System.currentTimeMillis() - ServiceRegistry.getServiceCooldown().getOrDefault(plugin, 0L) < 900000) {
+        if(System.currentTimeMillis() - ServiceRegistry.getServiceCooldown() < 900000) {
             return;
         }
         if(plugin.getDescription().getVersion().contains("b")) {
             return;
         }
-        ServiceRegistry.getServiceCooldown().put(plugin, System.currentTimeMillis());
+        ServiceRegistry.setServiceCooldown(System.currentTimeMillis());
         new BukkitRunnable() {
             @Override
             public void run() {

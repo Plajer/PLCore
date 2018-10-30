@@ -105,7 +105,7 @@ public class InventoryUtils {
         try {
             FileConfiguration invConfig = YamlConfiguration.loadConfiguration(file);
             Inventory inventory;
-            Integer invTitle = invConfig.getInt("Exp");
+            int invTitle = invConfig.getInt("Exp");
             int invSize = invConfig.getInt("Size", 36);
             int invMaxStackSize = invConfig.getInt("Max stack size", 64);
             InventoryHolder invHolder = null;
@@ -166,7 +166,6 @@ public class InventoryUtils {
                 }
                 player.getInventory().setArmorContents(armor);
                 player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(invConfig.getDouble("Max health"));
-                player.setExp((float) invConfig.getDouble("Exp"));
                 player.setHealth(invConfig.getDouble("Current health"));
                 player.setFoodLevel(invConfig.getInt("Food"));
                 player.setSaturation((float) invConfig.get("Saturation"));
@@ -180,16 +179,20 @@ public class InventoryUtils {
                 }
             } catch(Exception ignored) {
             }
+            Inventory inventory = getInventoryFromFile(plugin, player.getUniqueId().toString());
+
+            for(int i = 0; i < inventory.getContents().length; i++) {
+                if(inventory.getItem(i) != null) {
+                    player.getInventory().setItem(i, inventory.getItem(i));
+                }
+            }
+
+            player.updateInventory();
+
+            try {
+                player.setExp((float) invConfig.getDouble("Exp"));
+            } catch(Exception ignored) {}
         } catch(Exception ignored) {
         }
-        Inventory inventory = getInventoryFromFile(plugin, player.getUniqueId().toString());
-
-        for(Integer i = 0; i < inventory.getContents().length; i++) {
-            if(inventory.getItem(i) != null) {
-                player.getInventory().setItem(i, inventory.getItem(i));
-            }
-        }
-
-        player.updateInventory();
     }
 }

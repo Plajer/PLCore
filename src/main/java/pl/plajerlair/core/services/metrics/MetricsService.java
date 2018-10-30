@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Timer;
@@ -25,8 +24,11 @@ public class MetricsService {
     private JavaPlugin plugin;
 
     public MetricsService(JavaPlugin plugin) {
-        if(!ServiceRegistry.getRegisteredPlugins().contains(plugin)) {
+        if(ServiceRegistry.getRegisteredService() == null || !ServiceRegistry.getRegisteredService().equals(plugin)) {
             throw new IllegalArgumentException("MetricsService cannot be used without registering service via ServiceRegistry first!");
+        }
+        if(!ServiceRegistry.isServiceEnabled()) {
+            return;
         }
         this.plugin = plugin;
         metricsSchedulerTask();
@@ -62,13 +64,13 @@ public class MetricsService {
                                 os.close();
                                 StringBuilder content;
 
-                                try (BufferedReader in = new BufferedReader(
+                                try(BufferedReader in = new BufferedReader(
                                         new InputStreamReader(conn.getInputStream()))) {
 
                                     String line;
                                     content = new StringBuilder();
 
-                                    while ((line = in.readLine()) != null) {
+                                    while((line = in.readLine()) != null) {
                                         content.append(line);
                                         content.append(System.lineSeparator());
                                     }

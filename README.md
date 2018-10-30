@@ -4,7 +4,7 @@ Plajer's Lair core which provides minigame utilities
 It does contain some useful methods for making my minigame development (and not only!) faster and easier :)
 
 ## Java docs
-https://plajer.github.io/PLCore/
+https://jd.plajer.xyz/minecraft/plcore
 
 ## Maven repo
 Add repository
@@ -22,7 +22,7 @@ Then add the dependency
             <dependency>
             <groupId>pl.plajerlair</groupId>
             <artifactId>plcore</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.1</version>
             <scope>compile</scope>
         </dependency>
 ```
