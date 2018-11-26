@@ -50,7 +50,8 @@ public class InventoryUtils {
             }
             FileConfiguration invConfig = YamlConfiguration.loadConfiguration(invFile);
 
-            invConfig.set("Exp", player.getTotalExperience());
+            invConfig.set("Exp", player.getExp());
+            invConfig.set("ExpLevel", player.getLevel());
             invConfig.set("Current health", player.getHealth());
             invConfig.set("Max health", player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
             invConfig.set("Food", player.getFoodLevel());
@@ -190,7 +191,8 @@ public class InventoryUtils {
             player.updateInventory();
 
             try {
-                player.setTotalExperience(invConfig.getInt("Exp"));
+                player.setLevel(invConfig.getInt("ExpLevel"));
+                player.setExp((float) invConfig.getDouble("Exp"));
             } catch(Exception ignored) {}
         } catch(Exception ignored) {
         }
