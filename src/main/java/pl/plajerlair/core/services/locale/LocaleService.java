@@ -50,6 +50,7 @@ public class LocaleService {
 
     private InputStream requestLocaleFetch(String locale) {
         try {
+            //todo /v2/
             URL url = new URL("https://api.plajer.xyz/locale/fetch.php");
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setRequestMethod("POST");

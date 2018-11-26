@@ -51,6 +51,7 @@ public class MetricsService {
                         new Thread(() -> {
                             try {
                                 plugin.getLogger().log(Level.FINE, "Metrics data sent!");
+                                //todo /v2/
                                 URL url = new URL("https://api.plajer.xyz/metrics/receiver.php");
                                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                                 conn.setRequestMethod("POST");
