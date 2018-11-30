@@ -39,6 +39,18 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder lore(final List<String> name) {
+        final ItemMeta meta = is.getItemMeta();
+        List<String> lore = meta.getLore();
+        if(lore == null) {
+            lore = new ArrayList<>();
+        }
+        lore.addAll(name);
+        meta.setLore(lore);
+        is.setItemMeta(meta);
+        return this;
+    }
+
     public ItemStack build() {
         return is;
     }
