@@ -15,11 +15,11 @@ public class Debugger {
     private static boolean enabled = false;
     private static String prefix = "";
 
-    public void setPrefix(String prefix) {
+    public static void setPrefix(String prefix) {
         Debugger.prefix = prefix;
     }
 
-    public void setEnabled(boolean enabled) {
+    public static void setEnabled(boolean enabled) {
         Debugger.enabled = enabled;
     }
 
@@ -48,10 +48,6 @@ public class Debugger {
                     break;
             }
         }
-    }
-
-    public enum LogLevel {
-        INFO, WARN, ERROR, WTF /* what a terrible failure */, TASK,
     }
 
 }
