@@ -1,7 +1,0 @@
-pl.plajerlair.core.database
-pl.plajerlair.core.services
-pl.plajerlair.core.services.exception
-pl.plajerlair.core.services.locale
-pl.plajerlair.core.services.metrics
-pl.plajerlair.core.utils
-pl.plajerlair.core.utils.internal
