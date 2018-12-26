@@ -28,15 +28,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder lore(final String... name) {
-        final ItemMeta meta = is.getItemMeta();
-        List<String> lore = meta.getLore();
-        if(lore == null) {
-            lore = new ArrayList<>();
-        }
-        lore.addAll(Arrays.asList(name));
-        meta.setLore(lore);
-        is.setItemMeta(meta);
-        return this;
+        return lore(Arrays.asList(name));
     }
 
     public ItemBuilder lore(final List<String> name) {
