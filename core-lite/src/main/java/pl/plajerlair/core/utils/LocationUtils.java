@@ -39,11 +39,10 @@ public class LocationUtils {
             throw new IllegalArgumentException("String from which location is retrieved cannot be null nor empty!");
         }
         String[] loc = path.split(",");
-        Bukkit.getServer().createWorld(new WorldCreator(loc[0]));
         World w = Bukkit.getServer().getWorld(loc[0]);
-        Double x = Double.parseDouble(loc[1]);
-        Double y = Double.parseDouble(loc[2]);
-        Double z = Double.parseDouble(loc[3]);
+        double x = Double.parseDouble(loc[1]);
+        double y = Double.parseDouble(loc[2]);
+        double z = Double.parseDouble(loc[3]);
         if(loc.length > 4) {
             float yaw = Float.parseFloat(loc[4]);
             float pitch = Float.parseFloat(loc[5]);
