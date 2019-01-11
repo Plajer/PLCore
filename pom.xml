@@ -6,7 +6,7 @@
 
     <groupId>pl.plajerlair</groupId>
     <artifactId>plcore-master</artifactId>
-    <version>1.4.8</version>
+    <version>1.4.9</version>
     <modules>
         <module>core-main</module>
         <module>core-lite</module>

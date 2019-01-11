@@ -23,6 +23,8 @@ import java.util.Random;
  */
 public class MinigameUtils {
 
+    private static Random random = new Random();
+
     /**
      * Sends centered message in chat for player
      *
@@ -137,11 +139,8 @@ public class MinigameUtils {
         Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
         FireworkMeta fwm = fw.getFireworkMeta();
 
-        //Our random generator
-        Random r = new Random();
-
         //Get the type
-        int rt = r.nextInt(4) + 1;
+        int rt = random.nextInt(4) + 1;
         FireworkEffect.Type type;
         switch(rt) {
             case 1:
@@ -165,19 +164,20 @@ public class MinigameUtils {
         }
 
         //Get our random colours
-        int r1i = r.nextInt(250) + 1;
-        int r2i = r.nextInt(250) + 1;
+        int r1i = random.nextInt(250) + 1;
+        int r2i = random.nextInt(250) + 1;
         Color c1 = Color.fromBGR(r1i);
         Color c2 = Color.fromBGR(r2i);
 
         //Create our effect with this
-        FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(r.nextBoolean()).build();
+        FireworkEffect effect = FireworkEffect.builder().flicker(random.nextBoolean()).withColor(c1).withFade(c2)
+                .with(type).trail(random.nextBoolean()).build();
 
         //Then apply the effect to the meta
         fwm.addEffect(effect);
 
         //Generate some random power and set it
-        int rp = r.nextInt(2) + 1;
+        int rp = random.nextInt(2) + 1;
         fwm.setPower(rp);
         fw.setFireworkMeta(fwm);
     }
@@ -195,11 +195,8 @@ public class MinigameUtils {
      * @return String with requested progress
      */
     public static String getProgressBar(int current, int max, int totalBars, String symbol, String completedColor, String notCompletedColor) {
-
         float percent = (float) current / max;
-
         int progressBars = (int) (totalBars * percent);
-
         int leftOver = (totalBars - progressBars);
 
         StringBuilder sb = new StringBuilder();
