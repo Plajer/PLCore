@@ -1,3 +1,6 @@
+# Deprecated
+Replaced with [Commons Box Library](https://github.com/Plajer/Commons-Box)
+
 # PLCore
 Plajer's Lair core which provides minigame utilities
 
